@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Slog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="id">
+      <span class="name logo" id="site-logo"><span class="hl">S</span><span class="mid">ohan's B</span><span class="hl">log</span></span>
+    </div>
+    <nav class="top"><a href="posts.html">all posts</a><a href="index.html">home</a></nav>
+  </header>
+  
+  <div class="grid">
+    <a class="tile size-lg" style="background:var(--cat-thinking-bg);color:var(--cat-thinking-text)" href="posts/starving-the-player.html">
+    <p class="kicker">THINKING</p>
+    <h2>Starving the Player, Hostile Design and Great Games</h2>
+    <p>12 min &middot; Sep 12, 2026</p>
+  </a>
+    <div class="tile size-tall meta-tile bio" style="background:var(--cat-studying-bg);color:var(--cat-studying-text)">
+      <p class="kicker">STUDYING</p>
+      <h2>BEng Computer Systems Engineering, Warwick</h2>
+      <p>Joint Major in Computer Science and Electronic Engineering</p>
+    </div>
+    <div class="tile size-sm meta-tile bio" style="background:var(--cat-me-bg);color:var(--cat-me-text)">
+      <p class="kicker">ME</p>
+      <h2>19 &middot; he/him</h2>
+      
+    </div>
+    <div class="tile size-sm meta-tile bio" style="background:var(--cat-about-bg);color:var(--cat-about-text)">
+      <p class="kicker">ABOUT</p>
+      <h2>CS &amp; EE student at Warwick who'll build almost anything to avoid studying.</h2>
+      
+    </div>
+    <div class="tile size-wide meta-tile bio" style="background:var(--cat-site-bg);color:var(--cat-site-text)">
+      <p class="kicker">THE BLOG</p>
+      <h2>My blog. Contains thoughts from my head.</h2>
+      
+    </div>
+  </div>
+  <footer>
+    Built from my messy desk
+    <button type="button" id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle color theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </footer>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  function effective(){
+    return document.documentElement.dataset.theme
+      || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  }
+  function label(){
+    btn.setAttribute('aria-label', 'Switch to ' + (effective() === 'light' ? 'dark' : 'light') + ' mode');
+  }
+  label();
+  btn.addEventListener('click', function(){
+    var next = effective() === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    label();
+  });
+})();
+</script>
+<script>
+setTimeout(function(){
+  var logo = document.getElementById('site-logo');
+  if (logo) logo.classList.add('collapsed');
+}, 2000);
+</script>
+</body>
+</html>

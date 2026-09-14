@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Starving the Player, Hostile Design and Great Games — Slog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="id">
+      <span class="name logo" id="site-logo"><span class="hl">S</span><span class="mid">ohan's B</span><span class="hl">log</span></span>
+    </div>
+    <nav class="top"><a href="../posts.html">all posts</a><a href="../index.html">home</a></nav>
+  </header>
+  
+  <a class="back" href="../posts.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    All posts
+  </a>
+  <span class="kicker-badge" style="background:var(--cat-thinking-bg);color:var(--cat-thinking-text)">THINKING</span>
+  <h1>Starving the Player, Hostile Design and Great Games</h1>
+  <div class="post-meta">
+    <span>Sep 12, 2026</span>
+    <span>12 min read</span>
+    <span>gaming &middot; thinking &middot; game-design</span>
+  </div>
+  <article><p>Have you played Yume Nikki, Fear &amp; Hunger, or Void Stranger? Maybe you saw a 10-hour video about Fear &amp; Hunger, or your favourite let&#39;s-play YouTuber do a playthrough of Void Stranger. Or, you haven&#39;t heard of any of these games.</p>
+<p>They&#39;re <em>cult classics</em> as one would say.</p>
+<p>These games are difficult. Unforgiving. Unintuitive. Random at times too. And they tell you nothing. In fact, outlining the basic design aspects of these three games would lead you to think that they are horrible to play, and that anyone in their right mind wouldn&#39;t even watch a video of someone playing one.</p>
+<p>Yet, these games <em>work</em>. They tell a story and they do it effectively. But why? Any semblance of common sense would tell you otherwise.</p>
+<p>Here&#39;s my attempt at making sense of this.</p>
+<h2>The Common Design Philosophy</h2>
+<p>The core philosophy of these games is somewhat the same.</p>
+<ol>
+<li>Difficult mechanics</li>
+<li>Unfair mechanics</li>
+<li>Unforgiving mechanics</li>
+<li>Zero information</li>
+<li>&quot;Moon logic&quot; puzzles</li>
+<li>Long, obtuse gameplay</li>
+<li>Complex, branching storylines</li>
+</ol>
+<p>This goes against traditional game design. You know how it is these days with the 10-hour tutorials and the yellow paint. Developers and designers have this inherent <em>need</em> to tell the player that &quot;Hey, this is an IMPORTANT game mechanic.&quot; This poses another problem: designing an effective tutorial without losing the player in the first ten seconds.</p>
+<h2>Difficult Mechanics, Unfair Mechanics and Unforgiving Mechanics</h2>
+<p>Fear &amp; Hunger is known to be difficult and viscerally unforgiving. Basic stats and mechanics are hidden from the player; literal coin flips determine if your character keeps a limb or not. In fact, almost every decision in this game is determined by a 50/50 coin flip — your fate lies in the hands of a pseudo-random number generator. Even saving your game involves a coin flip: fail it, and the result is almost always immediate death. Progression is tied to knowledge, so you can&#39;t out-grind your enemies.</p>
+<p>But this hostile, unfair game design is perfect. Save points, which are the universal relief point for any game, are <strong>weaponized against</strong> the player. It becomes a gamble that forces the player to reconsider, making every save point an excruciating risk-reward calculation: push forward with low health for a much safer region but risk losing progress and dying, or risk an ambush during the save for a guaranteed heal and progress save.</p>
+<p>This coin flip mechanic is what ties the game&#39;s themes together, simulating the absolute helplessness of being trapped in a dungeon with beings superior to you. The player is never in control and the game lets you know that with every interaction. This very mechanic is what drives players to actively explore and exhaust every option in the game-world to avoid triggering said coin flips.</p>
+<p>Another example, Void Stranger. It&#39;s a different yet similar story. The core gameplay loop is essentially solving increasingly demanding Sokoban puzzles, which, even without the hidden meta-narrative features, is difficult to accomplish over 200+ floors with a small, limited number of &quot;lives&quot;. It trains you to solve rooms &quot;properly&quot;, completely hiding the fact that you can intentionally fall down pits to skip levels at the cost of your health, or that you can manipulate the boundaries of the screen itself. The unfairness stems from the fact that the tools you need to break the game are in your hands from minute one, but the game deliberately obfuscates them behind layers of misdirection.</p>
+<p>When you run out of lives is when the hostile design really shows itself — you don&#39;t get the usual &quot;game over&quot; screen. Instead, it alters the save state, strips away any UI, and thrusts you back into the game as &quot;Voided&quot;. This changes the storyline in and of itself, locking you out of the true narrative, and to reclaim the run, you have to replay hours of puzzles from scratch. It challenges the player by offering an easier playthrough at the cost of true, ultimate progress.</p>
+<p>It&#39;s a red herring. The difficult, repetitive and frustrating nature of the puzzles, along with unyielding failure states, is what eventually forces the player to experiment — to try to find a shortcut, which inevitably leads the player to the realization that the game isn&#39;t all that it seems. It is the realization that you can break the game&#39;s assumed rules that feels like executing an exploit to escape a sandbox.</p>
+<p>The extreme friction acts as a perfect smokescreen. It trains your brain to accept rigid state-machine logic, making the eventual boundary breaks feel incredibly subversive and immersive.</p>
+<h2>The Cryptic Nature and the Lack of Information</h2>
+<p>Yume Nikki is the oldest of the three, dating all the way back to 2004. This game is different to the other two in that it has no <em>apparent</em> difficult or frustrating mechanics. No mechanical puzzles or combat encounters. In Yume Nikki, the environment itself becomes the enemy, usually to the player&#39;s detriment. The whole game lies in the core loop of traversing through a <em>dream world</em> to collect 24 &quot;effects&quot; to unlock the ending — there&#39;s no dialogue, no combat and no real &quot;plot&quot;. The environment is weird, uncanny, and, most of all, random and cryptic. It would change, add to, or subtract from itself without any apparent cause. A player travelling through the doors may find that no map is ever the same, and they could easily lock themselves out of new maps by just walking. Blind environmental probability.</p>
+<p>Coupling this with the fact that there is no dialogue makes it a very isolating experience. There&#39;s no text exposition or a clear objective to achieve. The NPCs in the game are often non-verbal, emitting only sounds or just existing in the numerous surreal spaces.</p>
+<p>The game does offer the ability to &quot;pinch&quot; yourself awake to escape a dead end you may have wandered into. But waking up erases any navigational progress you might have made, posing yet another brutal choice similar to both Fear &amp; Hunger and Void Stranger. Using the numbered points from earlier, you can clearly see a pattern forming between the three games.</p>
+<p>While we&#39;re at it, Fear &amp; Hunger, too, is extreme in its crypticness. While it offers brief narrative exposition during character creation, the guidance immediately ends there. Everything else — progression mechanics, enemy behaviors, and item utility — is completely hidden. The player is forced to decipher the game&#39;s brutal logic entirely on their own, paying for every lesson with numerous deaths and grueling replays. Nothing, and I mean NOTHING, is ever explained to the player.</p>
+<p>The lack of information is a defining feature that creates the most impact. When there&#39;s no information for the player to grasp — nothing solid to build understanding on — that&#39;s when two things develop: curiosity, and paranoia. Your greatest enemy is always your own head. And the less information is given, the more you fill in the blanks. You can&#39;t build a horror game if the player knows everything and is all-powerful; tension is built slowly and effectively, through friction, the unknown, and helplessness.</p>
+<h2>&quot;Moon Logic&quot; as a Language</h2>
+<p>When a game strips away your traditional gamer intuition — the ingrained habits that tell you red barrels explode, glowing weak spots take double damage, and walls with cracks can be bombed — what are you left with? You are left with the game&#39;s own internal, alien logic. The infamous &quot;moon logic.&quot;</p>
+<p>In traditional point-and-click adventure games of the 90s, moon logic was often a byproduct of bad design. But in these cult classics, it is a deliberate, meticulously crafted language. Void Stranger, for instance, takes the standard language of block-pushing and entirely rewrites the dictionary. The game wants you to feel stupid. It wants you to hit a wall so impenetrable that you are forced to stop playing it like a video game and start treating it like a puzzle box sitting in your actual living room. You start questioning the UI. You start questioning the borders of your screen.</p>
+<p>Fear &amp; Hunger does this with its combat and exploration. A normal RPG teaches you to attack the center mass until the health bar depletes. Fear &amp; Hunger teaches you that health bars don&#39;t exist, and swinging blindly will get your arms chopped off. Instead, you learn the gruesome moon logic of the dungeon: cut off the guard&#39;s weapon arm first, throw glass in the monster&#39;s eyes, or perhaps realize that fighting is entirely the wrong choice and you should just talk to the eldritch abomination to distract it.</p>
+<p>This obtuse, winding gameplay is the ultimate filter. It filters out the tourists, leaving only the players willing to learn the language. And when you finally understand that language — when you learn to navigate Yume Nikki&#39;s looping, senseless dreamscapes without getting lost, or work out how to actively break Void Stranger over your knee — that&#39;s when the rush of dopamine is unparalleled.</p>
+<p>All of this hostility — the coin flips, the lost progress, the cryptic worlds — serves a singular purpose: it elevates the narrative in a way no cinematic cutscene ever could.</p>
+<p>We often equate good design with removing frustration. And yes, sometimes that is exactly what good design means. Bad controls are frustrating. Unresponsive interfaces are frustrating. But we tend to forget that game design isn&#39;t the same as UI design. Artificial difficulty can be frustrating, but frustration itself isn&#39;t inherently bad.</p>
+<p>Of course, meaningless frustration is bad. There&#39;s a difference.</p>
+<p>If a game makes you walk slowly through a corridor for ten minutes because the developer wants to pad the runtime, that&#39;s frustrating. Instead, if a game makes you walk slowly through a corridor because you&#39;re injured, terrified, and desperately trying to avoid making noise, that same friction can create tension.</p>
+<p>This brings us to the complex, branching storylines. In a standard AAA game, seeing a different ending usually involves picking a different dialogue option right before the final boss. In these games, a different ending requires an entirely different understanding of the world.</p>
+<p>Getting a &quot;good&quot; ending (if you can even call it that) in Fear &amp; Hunger requires such a deep, exhaustive knowledge of the dungeon&#39;s horrors that you, the player, have functionally become a seasoned survivor. The friction ensures that the story isn&#39;t something you passively consume. When you finally uncover a piece of deep lore, or reach an ending that sheds light on the overarching tragedy of the setting, it feels profoundly <em>earned</em>.</p>
+<p>The same applies to Yume Nikki. The ending of that game is infamous, abrupt, and deeply unsettling. But it only lands with the emotional weight that it does because you spent hours wandering aimlessly through the lonely, isolating mind of Madotsuki, the character you play. The long, obtuse gameplay loop is the narrative. The mechanics <strong>are the metaphor</strong>. You have to earn it.</p>
+<p>Hostile design is ultimately an act of deep respect for the player.</p>
+<p>We are so used to games desperate to be liked, games terrified that if we get stuck for more than two minutes, we&#39;ll turn them off and leave a bad review. Fear &amp; Hunger, Void Stranger, and Yume Nikki do not care if you like them. They are perfectly content to let you suffer, to starve you of information, and to watch you fail. And ironically, it is exactly that refusal to compromise that makes us love them so fiercely.</p>
+<h2>How the Internet Elevates the Experience</h2>
+<p>I think the internet helps shape the experience of these types of games. Due to the cryptic nature of the games, the lack of hand-holding and weird logic, communities form to decrypt the game and &quot;overcome&quot; it. Wikis spawn, slowly documenting the ins and outs of the world, weird quirks and fleeting occurrences. It becomes a collective effort. The extreme hostility of the design forces players out of their isolated single-player experiences and into a shared digital experience. When a game refuses to tell you anything, the only way to survive is to ask someone else who has already suffered through it.</p>
+<p>We saw this in the early days of gaming with playground rumors — the whispers of hidden levels and secret characters that you couldn&#39;t verify without trying them yourself. The internet takes that phenomenon and amplifies it on a global scale. Yume Nikki achieved its legendary status precisely because of early internet forums and imageboards. Players would stumble upon a horrifying, fleeting event like <em>Uboa</em>, fail to replicate it, and immediately rush to a message board to ask, &quot;Did anyone else just see that?&quot;</p>
+<p>With Fear &amp; Hunger, the community acts as a survival network. The game&#39;s mechanics are so brutal and its secrets so deeply buried that the wiki reads less like a traditional game guide and more like a grim survival manual passed between weary travelers: documenting the exact percentage chance of events, cataloging which limbs to sever on which specific enemies, and mapping out the safest routes through the dungeon, along with cheese strategies and exploits. All of this becomes a massive, crowdsourced puzzle.</p>
+<p>Similarly, Void Stranger practically demands a collective consciousness to fully unravel. The meta-narrative and the deeply hidden mechanics meant to break the game are so esoteric that players naturally band together, sharing screenshots of strange glyphs and comparing notes on obscure puzzle mechanics. It transforms the solitary act of playing a puzzle game into a massive, collaborative ARG.</p>
+<p>This is the hidden genius of information withdrawal. If a game gives you a map, a quest marker, and a detailed tutorial, you have no reason to look away from the screen. You consume the content and move on. But when a game gives you nothing but friction and dead ends, it forces you to seek out answers.</p>
+<h2>A Conversation</h2>
+<p>Games are fundamentally a conversation between the developers and the players — a story, a message, or a theme, something the developer wanted to convey. Games like these ensure that the player has a voice in the conversation. They demand <em>you</em> do the talking, forcing you to fill the silence and understand what the intention was. And because of that, it becomes deeply personal to the player. I think that is extremely difficult to do. Balancing this fine line between inconvenience and meaning is hard.</p>
+</article>
+  <hr class="div">
+  <div class="related">
+    <h3>More from the workbench</h3>
+    <div class="rel-grid">
+      <a class="rel" style="background:var(--cat-repair-bg);color:var(--cat-repair-text)" href="ps2-repair.html">
+        <p class="tag">REPAIR</p>
+        <p class="t">Resurrecting a Childhood PS2 Slim</p>
+      </a>
+      <a class="rel" style="background:var(--cat-language-bg);color:var(--cat-language-text)" href="kanji-loop.html">
+        <p class="tag">LANGUAGE</p>
+        <p class="t">The Two-Year Kanji Loop</p>
+      </a>
+      <a class="rel" style="background:var(--cat-retro-bg);color:var(--cat-retro-text)" href="wiilink.html">
+        <p class="tag">RETRO</p>
+        <p class="t">Getting My Wii Running Again</p>
+      </a>
+    </div>
+  </div>
+  <footer>
+    Built from my messy desk
+    <button type="button" id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle color theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </footer>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  function effective(){
+    return document.documentElement.dataset.theme
+      || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  }
+  function label(){
+    btn.setAttribute('aria-label', 'Switch to ' + (effective() === 'light' ? 'dark' : 'light') + ' mode');
+  }
+  label();
+  btn.addEventListener('click', function(){
+    var next = effective() === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    label();
+  });
+})();
+</script>
+<script>
+setTimeout(function(){
+  var logo = document.getElementById('site-logo');
+  if (logo) logo.classList.add('collapsed');
+}, 2000);
+</script>
+</body>
+</html>

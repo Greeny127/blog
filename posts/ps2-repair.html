@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Resurrecting a Childhood PS2 Slim — Slog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="id">
+      <span class="name logo" id="site-logo"><span class="hl">S</span><span class="mid">ohan's B</span><span class="hl">log</span></span>
+    </div>
+    <nav class="top"><a href="../posts.html">all posts</a><a href="../index.html">home</a></nav>
+  </header>
+  
+  <a class="back" href="../posts.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    All posts
+  </a>
+  <span class="kicker-badge" style="background:var(--cat-repair-bg);color:var(--cat-repair-text)">REPAIR</span>
+  <h1>Resurrecting a Childhood PS2 Slim</h1>
+  <div class="post-meta">
+    <span>Aug 20, 2026</span>
+    <span>1 min read</span>
+    <span>ps2 &middot; hardware &middot; repair</span>
+  </div>
+  <article><p>Rust on the chassis, a dead AV cable, and a disc drive that just won&#39;t spin.  </p>
+<p>This is a PS2 Slim, model SCPH-75004, PAL region. The exact unit I had growing up, which never actually worked. The disc drive would spin up, seek, and just fail, over and over, in a grinding buzz that I now recognize as a spindle motor giving up. Opening the case turned up two separate problems instead of one:</p>
+<ul>
+<li>Visible rust and corrosion on the internal metal chassis parts, which points to moisture exposure at some point in this thing&#39;s life</li>
+<li>The disc lid button feels soft and doesn&#39;t rebound properly, which likely means the lid-detection switches aren&#39;t triggering fully — the console may think the lid is still open</li>
+</ul>
+<p>On top of that, the console lost video output intermittently once I had the shell off, despite booting fine on the TV the night before. Tracing that back led to the AV Multi Out cable itself; it&#39;s missing several pins on the connector. The console&#39;s own port looked intact by comparison. It genuinely looked like the FNAF title screen glitches.  </p>
+<p>A replacement composite AV cable is on the way. Once that&#39;s in, I can rule the cable out properly and focus on the drive and the corrosion, which is really two repairs pretending to be one.</p>
+</article>
+  <hr class="div">
+  <div class="related">
+    <h3>More from the workbench</h3>
+    <div class="rel-grid">
+      <a class="rel" style="background:var(--cat-thinking-bg);color:var(--cat-thinking-text)" href="starving-the-player.html">
+        <p class="tag">THINKING</p>
+        <p class="t">Starving the Player, Hostile Design and Great Games</p>
+      </a>
+      <a class="rel" style="background:var(--cat-language-bg);color:var(--cat-language-text)" href="kanji-loop.html">
+        <p class="tag">LANGUAGE</p>
+        <p class="t">The Two-Year Kanji Loop</p>
+      </a>
+      <a class="rel" style="background:var(--cat-retro-bg);color:var(--cat-retro-text)" href="wiilink.html">
+        <p class="tag">RETRO</p>
+        <p class="t">Getting My Wii Running Again</p>
+      </a>
+    </div>
+  </div>
+  <footer>
+    Built from my messy desk
+    <button type="button" id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle color theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </footer>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  function effective(){
+    return document.documentElement.dataset.theme
+      || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  }
+  function label(){
+    btn.setAttribute('aria-label', 'Switch to ' + (effective() === 'light' ? 'dark' : 'light') + ' mode');
+  }
+  label();
+  btn.addEventListener('click', function(){
+    var next = effective() === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    label();
+  });
+})();
+</script>
+<script>
+setTimeout(function(){
+  var logo = document.getElementById('site-logo');
+  if (logo) logo.classList.add('collapsed');
+}, 2000);
+</script>
+</body>
+</html>

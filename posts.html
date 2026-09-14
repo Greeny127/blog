@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>All Posts — Slog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="id">
+      <span class="name logo" id="site-logo"><span class="hl">S</span><span class="mid">ohan's B</span><span class="hl">log</span></span>
+    </div>
+    <nav class="top"><a href="posts.html">all posts</a><a href="index.html">home</a></nav>
+  </header>
+  
+  <h1 class="page-title">All Posts</h1>
+  <div class="grid">
+    <a class="tile size-lg" style="background:var(--cat-thinking-bg);color:var(--cat-thinking-text)" href="posts/starving-the-player.html">
+    <p class="kicker">THINKING</p>
+    <h2>Starving the Player, Hostile Design and Great Games</h2>
+    <p>12 min &middot; Sep 12, 2026</p>
+  </a>
+    <a class="tile size-md" style="background:var(--cat-repair-bg);color:var(--cat-repair-text)" href="posts/ps2-repair.html">
+    <p class="kicker">REPAIR</p>
+    <h2>Resurrecting a Childhood PS2 Slim</h2>
+    <p>1 min &middot; Aug 20, 2026</p>
+  </a>
+    <a class="tile size-sm" style="background:var(--cat-language-bg);color:var(--cat-language-text)" href="posts/kanji-loop.html">
+    <p class="kicker">LANGUAGE</p>
+    <h2>The Two-Year Kanji Loop</h2>
+    <p>1 min &middot; Aug 2, 2026</p>
+  </a>
+    <a class="tile size-tall" style="background:var(--cat-retro-bg);color:var(--cat-retro-text)" href="posts/wiilink.html">
+    <p class="kicker">RETRO</p>
+    <h2>Getting My Wii Running Again</h2>
+    <p>3 min &middot; Jul 24, 2026</p>
+  </a>
+  </div>
+  <footer>
+    Built from my messy desk
+    <button type="button" id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle color theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </footer>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  function effective(){
+    return document.documentElement.dataset.theme
+      || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  }
+  function label(){
+    btn.setAttribute('aria-label', 'Switch to ' + (effective() === 'light' ? 'dark' : 'light') + ' mode');
+  }
+  label();
+  btn.addEventListener('click', function(){
+    var next = effective() === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    label();
+  });
+})();
+</script>
+<script>
+setTimeout(function(){
+  var logo = document.getElementById('site-logo');
+  if (logo) logo.classList.add('collapsed');
+}, 2000);
+</script>
+</body>
+</html>
