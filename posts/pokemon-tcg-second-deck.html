@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>I Tried to Science a Second Pokémon Deck and Learned the Meta Is the Meta for a Reason — Slog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="id">
+      <span class="name logo" id="site-logo"><span class="hl">S</span><span class="mid">ohan's B</span><span class="hl">log</span></span>
+    </div>
+    <nav class="top"><a href="../posts.html">all posts</a><a href="../index.html">home</a></nav>
+  </header>
+  
+  <a class="back" href="../posts.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    All posts
+  </a>
+  <span class="kicker-badge" style="background:var(--cat-thinking-bg);color:var(--cat-thinking-text)">THINKING</span>
+  <h1>I Tried to Science a Second Pokémon Deck and Learned the Meta Is the Meta for a Reason</h1>
+  <div class="post-meta">
+    <span>Nov 22, 2026</span>
+    <span>7 min read</span>
+    <span>pokemon &middot; tcg &middot; thinking &middot; data</span>
+  </div>
+  <article><p>I main N&#39;s Zoroark in Pokémon TCG. It&#39;s a fine deck. It&#39;s also a deck that half the room is playing (well like 9%?), and I wanted a second one that wasn&#39;t. Something I could pull out that nobody had a plan for, and that wasn&#39;t just whatever was on Limitless&#39;s homepage.</p>
+<p>So I did what any reasonable person would do. I went on Limitless and Reddit, found nothing that excited me, and then over one very long night and the following afternoon spiralled into reading every card in the format, building a game simulator, and attempting to train a neural network to play Pokémon.</p>
+<p>This is how that went. Spoiler: I did not find it. But Mega Darkrai might just be my participation prize.</p>
+<h2>Step One: Read Every Card</h2>
+<p>The first plan was simple. Standard right now is regulation marks H, I and J, with the newest set, Delta Reign, only a couple of weeks old. I pulled every card in rotation, text only, no pictures: about 2,300 distinct cards. Then I pulled the last 30 days of tournament results with public decklists, which gave me roughly 5,000 lists from after Delta Reign dropped.</p>
+<p>Then I read all of it. Every Pokémon&#39;s attacks and abilities, with notes, looking for an engine that was <em>busted</em> but <em>underused</em>. Something where the meta&#39;s weaknesses lined up with a card nobody was running. A few facts about the field fell out of that:</p>
+<ul>
+<li>92% of lists run three or more different ability Pokémon.</li>
+<li>The biggest ex in a list has 280 HP or less in about a quarter of lists, so there&#39;s a lot of room to one-shot things.</li>
+<li>Roughly one in eight lists runs Watchtower, and about one in eight runs Mist Energy.</li>
+</ul>
+<p>The shortlist was <strong>Slaking ex</strong>, a <strong>Cofagrigus package</strong> that stacks damage counters on everything, and a handful of other weird Pokémon.</p>
+<h2>Step Two: The Meta Hits Back</h2>
+<p>Every one of those ideas died in the same way: somebody&#39;s already in the format who just wrecks it.</p>
+<p><strong>Slaking ex</strong> loses to Festival Lead, because Born to Slack stops it from attacking if the opponent isn&#39;t playing an ex, and Festival Lead can just... not do that. I REALLY hate Festival Lead.</p>
+<p><strong>Mega Dragalge ex</strong> is the deck I liked most, a status-condition deck where poison and burn do the work. Then I checked what the field actually runs:</p>
+<ul>
+<li>Every Festival Lead list runs Festival Grounds, which cures <em>all</em> Special Conditions.</li>
+<li>Every Basic Box list runs Latias ex, which makes Basic Pokémon retreat for free (a free status cure), and Lillie&#39;s Clefairy ex, whose Fairy Zone flips Dragalge&#39;s weakness to a Psychic ×2.</li>
+<li>Fairy Zone also shows up in Slowking, Dhelmise and some Alakazam and Lopunny lists.</li>
+</ul>
+<p>That&#39;s somewhere around 27–33% of the meta that either cures or punishes the deck for existing.</p>
+<p><strong>Incineroar ex</strong> was the next favourite. It sets up fast on paper (about 65–73% by turn 3 in my goldfish tests), but its ability is on an Evolution, and 87% of Mega Rayquaza lists run Legendary Pyroduct, which switches it off. Also, there were zero Incineroar ex lists in 5,099. Zero. I&#39;d hoped I was the first one to notice it. I was apparently the first one to ignore that nobody else had.</p>
+<p><strong>Cofagrigus</strong> I really liked. Then it turned out that putting 60 damage counters on the opposing Active also works on <em>my own</em> Munkidori, because Munkidori has an Ability. Whoops. And across 15,171 real lists, Cofagrigus appeared as a 1-of in 47 Slowking lists and not once as a deck.</p>
+<h2>Step Three: Just Build a Simulator, How Hard Can It Be</h2>
+<p>If I couldn&#39;t trust my own reading, I figured I&#39;d test the decks. A quick Python simulator, validate it against real matchup data, then run my niche decks through it.</p>
+<p>It did not match reality. Against real Limitless results:</p>
+<ul>
+<li>Dragapult mirror: 49% real, 47–56% in the sim. Fine.</li>
+<li>Dragapult vs Festival Lead: 63–73% real, 74–89% in the sim. Not fine.</li>
+<li>Mega Rayquaza vs Festival Lead: 47% real, 90% in the sim. Very much not fine.</li>
+</ul>
+<p>I rewrote the AI. I rewrote the engine in C++ to make it fast: all 1,872 attacks, 331 abilities and 242 trainers/tools/stadiums, fuzz-tested over about 250,000 random games for crashes and cards vanishing. I then built a real-match backtest, 14,829 actual tournament matches with both exact 60-card lists and the winner, and asked a simple question: Does the simulator pick the real winner?</p>
+<p>It picked the winner 54.4% of the time on the first test, and the rule-based pilot later dropped to about 39%, which is below a coin flip. That&#39;s the &quot;you built a very elaborate way to be wrong&quot; result.</p>
+<h2>Step Four: The Chess Engine</h2>
+<p>At this point I pivoted again. Forget predicting matchups; build the <em>Stockfish of Pokémon TCG</em>, a bot that just plays the best move given its deck. I wanted a human-level bot. I researched the best machine learning techniques, adapted to the actual mechanics of the game.</p>
+<p>What came out of that:</p>
+<ul>
+<li>A small transformer (about 253k parameters) that sees every Pokémon in play as a token, along with hand, discard piles, and the full decklist.</li>
+<li>A <strong>belief model</strong> for hidden information, which weights real decklists consistent with what the opponent has shown and samples their hand and prizes from them. (My first search version quietly cheated by peeking at the opponent&#39;s real deck. I caught it and replaced it with sampling. Strength dropped from 76.5% to 74.4% against the old bot, which is what honesty costs.)</li>
+<li>Self-play training on about 1.08 million positions from ~13,000 games.</li>
+</ul>
+<p>The result: on held-out games the network agrees with its teacher search about 65% of the time, and the early version beat the rule-based bot 65% (±10, with only 80 games). That&#39;s <em>promising</em>, but agreement with a teacher measures copying, so if the teacher is stupid then so is the student. I never played the final network head-to-head.</p>
+<p>It also used about 7.5 GB of disk, almost all training data, and made my laptop fan sound like a jet engine.</p>
+<h2>So What Did I Actually Learn?</h2>
+<p><strong>1. Real data beats clever analysis.</strong> The one deck with real evidence behind it wasn&#39;t any of my ideas. It was Rocket&#39;s Honchkrow: 52.9% win rate across 534 matches while only 1.8% of the field plays it. Better, lists with 7 or more games win 56.1% of the time. Okidogi Barbaracle (54.7%) and Crustle (53.2%) also look decent. That&#39;s a thing a spreadsheet told me for free in the first hour of this maddening spiral, and I walked straight past it to go do whatever it is I did.</p>
+<p><strong>2. &quot;Niche&quot; is a state of the market, not a property of a deck.</strong> If something&#39;s genuinely good and underplayed, it&#39;s usually underplayed because it&#39;s hard to pilot, has a catastrophic matchup against something common, or both. Honchkrow&#39;s matchup table is a perfect example: 80% into Excadrill and Crustle, 71% into Zoroark, but 33% into Talonflame Dusknoir, and its pilot has to hold Supporters for Rocket Feathers, which is exactly what my simulator&#39;s AI couldn&#39;t do.</p>
+<p><strong>3. Be suspicious of your own tools.</strong> The simulator said Honchkrow was bad (32%). The real data said 53%. If I&#39;d trusted the simulator, I&#39;d have thrown away the one good lead. The hardest part of the whole project was admitting, several times, that the thing I&#39;d just spent hours on wasn&#39;t good enough to decide anything and was, in fact, rather useless.</p>
+<p><strong>4. You can have fun and still be doing the wrong thing.</strong> I don&#39;t regret it. Reading every card taught me the format far better than watching streams did, and I now know exactly <em>why</em> Latias is in everything. But if the goal was &quot;pick a deck&quot;, I could have done it in an evening.</p>
+<h2>Where It Ended Up</h2>
+<p>I did, however, end up with something of an idea for a good second deck I could try: <strong>Mega Darkrai ex</strong>. It&#39;s a status deck, similar to Mega Dragalge ex, but a lot more stable and reliable, and it&#39;s not straight up useless! Well, at least I think so. I&#39;m using a weird mashup of decks from this one Japanese website and just playing it against other decks by myself to see how well it plays. And to be honest, it&#39;s still kinda doodoo.</p>
+<p>The simulator is still there. The network is still half-trained. And Zoroark is still my main. And I lost years off my life, but at least I now know why no one plays Cofagrigus.</p>
+</article>
+  <hr class="div">
+  <div class="related">
+    <h3>More from the workbench</h3>
+    <div class="rel-grid">
+      <a class="rel" style="background:var(--cat-thinking-bg);color:var(--cat-thinking-text)" href="starving-the-player.html">
+        <p class="tag">THINKING</p>
+        <p class="t">Starving the Player, Hostile Design and Great Games</p>
+      </a>
+      <a class="rel" style="background:var(--cat-repair-bg);color:var(--cat-repair-text)" href="ps2-repair.html">
+        <p class="tag">REPAIR</p>
+        <p class="t">Resurrecting a Childhood PS2 Slim</p>
+      </a>
+      <a class="rel" style="background:var(--cat-language-bg);color:var(--cat-language-text)" href="kanji-loop.html">
+        <p class="tag">LANGUAGE</p>
+        <p class="t">The Two-Year Kanji Loop</p>
+      </a>
+    </div>
+  </div>
+  <footer>
+    Built from my messy desk
+    <button type="button" id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle color theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+  </footer>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  function effective(){
+    return document.documentElement.dataset.theme
+      || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  }
+  function label(){
+    btn.setAttribute('aria-label', 'Switch to ' + (effective() === 'light' ? 'dark' : 'light') + ' mode');
+  }
+  label();
+  btn.addEventListener('click', function(){
+    var next = effective() === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    label();
+  });
+})();
+</script>
+<script>
+setTimeout(function(){
+  var logo = document.getElementById('site-logo');
+  if (logo) logo.classList.add('collapsed');
+}, 2000);
+</script>
+</body>
+</html>
