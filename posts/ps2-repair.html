@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../styles.css">
+<link rel="alternate" type="application/rss+xml" title="Sohan's Blog" href="../feed.xml">
 </head>
 <body>
 <div class="wrap">
@@ -16,7 +17,7 @@
     <div class="id">
       <span class="name logo" id="site-logo"><span class="hl">S</span><span class="mid">ohan's B</span><span class="hl">log</span></span>
     </div>
-    <nav class="top"><a href="../posts.html">all posts</a><a href="../index.html">home</a></nav>
+    <nav class="top"><a href="../posts.html">all posts</a><a href="../index.html">home</a><a href="../feed.xml">rss</a></nav>
   </header>
   
   <a class="back" href="../posts.html">
@@ -39,6 +40,55 @@
 <p>On top of that, the console lost video output intermittently once I had the shell off, despite booting fine on the TV the night before. Tracing that back led to the AV Multi Out cable itself; it&#39;s missing several pins on the connector. The console&#39;s own port looked intact by comparison. It genuinely looked like the FNAF title screen glitches.  </p>
 <p>A replacement composite AV cable is on the way. Once that&#39;s in, I can rule the cable out properly and focus on the drive and the corrosion, which is really two repairs pretending to be one.</p>
 </article>
+  
+  <section class="comments" id="comments">
+    <h3>Comments</h3>
+    <div id="comment-list" aria-live="polite"><p class="c-note">Loading comments…</p></div>
+    <form id="comment-form" class="c-form" novalidate>
+      <label>Name<input name="name" type="text" maxlength="50" required autocomplete="nickname"></label>
+      <label>Comment<textarea name="body" rows="5" maxlength="2000" required></textarea></label>
+      <div class="c-hp" aria-hidden="true"><label>Leave this empty<input name="hp" type="text" tabindex="-1" autocomplete="off"></label></div>
+      <button type="submit">Submit</button>
+      <p class="c-note" id="comment-status" role="status">Comments are held for approval before they show up here.</p>
+    </form>
+  </section>
+  <script>
+  (function(){
+    var API = "https://blog-comments.slogworker.workers.dev", SLUG = "ps2-repair";
+    var list = document.getElementById('comment-list'), form = document.getElementById('comment-form'),
+        status = document.getElementById('comment-status');
+    function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+    function render(comments){
+      list.textContent = '';
+      if (!comments.length){ list.appendChild(el('p', 'c-note', 'No comments yet.')); return; }
+      comments.forEach(function(c){
+        var box = el('div', 'comment'), head = el('div', 'c-head');
+        head.appendChild(el('strong', 'c-name', c.name));
+        head.appendChild(el('span', 'c-meta', new Date(c.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) + ' #' + c.id));
+        box.appendChild(head); box.appendChild(el('p', 'c-body', c.body)); list.appendChild(box);
+      });
+    }
+    fetch(API + '/comments?slug=' + encodeURIComponent(SLUG))
+      .then(function(r){ if (!r.ok) throw 0; return r.json(); })
+      .then(function(d){ render(d.comments || []); })
+      .catch(function(){ list.textContent = ''; list.appendChild(el('p', 'c-note', "Couldn't load comments right now.")); });
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var f = new FormData(form), btn = form.querySelector('button');
+      if (!f.get('name').trim() || !f.get('body').trim()){ status.textContent = 'Name and comment are required.'; return; }
+      btn.disabled = true; status.textContent = 'Sending…';
+      fetch(API + '/comments', { method: 'POST', headers: {'content-type': 'application/json'},
+        body: JSON.stringify({ slug: SLUG, name: f.get('name'), body: f.get('body'), hp: f.get('hp') }) })
+        .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ return { ok: r.ok, d: d }; }); })
+        .then(function(x){
+          if (x.ok){ form.reset(); status.textContent = 'Thanks! Your comment is awaiting approval.'; }
+          else { status.textContent = x.d.error || 'Something went wrong, try again.'; }
+        })
+        .catch(function(){ status.textContent = "Couldn't send that, try again."; })
+        .then(function(){ btn.disabled = false; });
+    });
+  })();
+  </script>
   <hr class="div">
   <div class="related">
     <h3>More from the workbench</h3>

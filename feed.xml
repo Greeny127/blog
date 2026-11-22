@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Sohan's Blog</title>
+    <link>https://greeny127.github.io/blog/</link>
+    <description>Hardware, repair, languages, retro games and thinking out loud.</description>
+    <language>en</language>
+    <lastBuildDate>Sun, 22 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://greeny127.github.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>I Tried to Science a Second Pokémon Deck and Learned the Meta Is the Meta for a Reason</title>
+      <link>https://greeny127.github.io/blog/posts/pokemon-tcg-second-deck.html</link>
+      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/pokemon-tcg-second-deck.html</guid>
+      <pubDate>Sun, 22 Nov 2026 12:00:00 GMT</pubDate>
+      <category>thinking</category>
+      <category>pokemon</category>
+      <category>tcg</category>
+      <category>data</category>
+      <description>I main N's Zoroark in Pokémon TCG. It's a fine deck. It's also a deck that half the room is playing (well like 9%?), and I wanted a second one that wasn't. Something I could pull out that nobody had a plan for, and that wasn't just whatever was on Limitless's homepage. So I did…</description>
+      <content:encoded><![CDATA[<p>I main N&#39;s Zoroark in Pokémon TCG. It&#39;s a fine deck. It&#39;s also a deck that half the room is playing (well like 9%?), and I wanted a second one that wasn&#39;t. Something I could pull out that nobody had a plan for, and that wasn&#39;t just whatever was on Limitless&#39;s homepage.</p>
+<p>So I did what any reasonable person would do. I went on Limitless and Reddit, found nothing that excited me, and then over one very long night and the following afternoon spiralled into reading every card in the format, building a game simulator, and attempting to train a neural network to play Pokémon.</p>
+<p>This is how that went. Spoiler: I did not find it. But Mega Darkrai might just be my participation prize.</p>
+<h2>Step One: Read Every Card</h2>
+<p>The first plan was simple. Standard right now is regulation marks H, I and J, with the newest set, Delta Reign, only a couple of weeks old. I pulled every card in rotation, text only, no pictures: about 2,300 distinct cards. Then I pulled the last 30 days of tournament results with public decklists, which gave me roughly 5,000 lists from after Delta Reign dropped.</p>
+<p>Then I read all of it. Every Pokémon&#39;s attacks and abilities, with notes, looking for an engine that was <em>busted</em> but <em>underused</em>. Something where the meta&#39;s weaknesses lined up with a card nobody was running. A few facts about the field fell out of that:</p>
+<ul>
+<li>92% of lists run three or more different ability Pokémon.</li>
+<li>The biggest ex in a list has 280 HP or less in about a quarter of lists, so there&#39;s a lot of room to one-shot things.</li>
+<li>Roughly one in eight lists runs Watchtower, and about one in eight runs Mist Energy.</li>
+</ul>
+<p>The shortlist was <strong>Slaking ex</strong>, a <strong>Cofagrigus package</strong> that stacks damage counters on everything, and a handful of other weird Pokémon.</p>
+<h2>Step Two: The Meta Hits Back</h2>
+<p>Every one of those ideas died in the same way: somebody&#39;s already in the format who just wrecks it.</p>
+<p><strong>Slaking ex</strong> loses to Festival Lead, because Born to Slack stops it from attacking if the opponent isn&#39;t playing an ex, and Festival Lead can just... not do that. I REALLY hate Festival Lead.</p>
+<p><strong>Mega Dragalge ex</strong> is the deck I liked most, a status-condition deck where poison and burn do the work. Then I checked what the field actually runs:</p>
+<ul>
+<li>Every Festival Lead list runs Festival Grounds, which cures <em>all</em> Special Conditions.</li>
+<li>Every Basic Box list runs Latias ex, which makes Basic Pokémon retreat for free (a free status cure), and Lillie&#39;s Clefairy ex, whose Fairy Zone flips Dragalge&#39;s weakness to a Psychic ×2.</li>
+<li>Fairy Zone also shows up in Slowking, Dhelmise and some Alakazam and Lopunny lists.</li>
+</ul>
+<p>That&#39;s somewhere around 27–33% of the meta that either cures or punishes the deck for existing.</p>
+<p><strong>Incineroar ex</strong> was the next favourite. It sets up fast on paper (about 65–73% by turn 3 in my goldfish tests), but its ability is on an Evolution, and 87% of Mega Rayquaza lists run Legendary Pyroduct, which switches it off. Also, there were zero Incineroar ex lists in 5,099. Zero. I&#39;d hoped I was the first one to notice it. I was apparently the first one to ignore that nobody else had.</p>
+<p><strong>Cofagrigus</strong> I really liked. Then it turned out that putting 60 damage counters on the opposing Active also works on <em>my own</em> Munkidori, because Munkidori has an Ability. Whoops. And across 15,171 real lists, Cofagrigus appeared as a 1-of in 47 Slowking lists and not once as a deck.</p>
+<h2>Step Three: Just Build a Simulator, How Hard Can It Be</h2>
+<p>If I couldn&#39;t trust my own reading, I figured I&#39;d test the decks. A quick Python simulator, validate it against real matchup data, then run my niche decks through it.</p>
+<p>It did not match reality. Against real Limitless results:</p>
+<ul>
+<li>Dragapult mirror: 49% real, 47–56% in the sim. Fine.</li>
+<li>Dragapult vs Festival Lead: 63–73% real, 74–89% in the sim. Not fine.</li>
+<li>Mega Rayquaza vs Festival Lead: 47% real, 90% in the sim. Very much not fine.</li>
+</ul>
+<p>I rewrote the AI. I rewrote the engine in C++ to make it fast: all 1,872 attacks, 331 abilities and 242 trainers/tools/stadiums, fuzz-tested over about 250,000 random games for crashes and cards vanishing. I then built a real-match backtest, 14,829 actual tournament matches with both exact 60-card lists and the winner, and asked a simple question: Does the simulator pick the real winner?</p>
+<p>It picked the winner 54.4% of the time on the first test, and the rule-based pilot later dropped to about 39%, which is below a coin flip. That&#39;s the &quot;you built a very elaborate way to be wrong&quot; result.</p>
+<h2>Step Four: The Chess Engine</h2>
+<p>At this point I pivoted again. Forget predicting matchups; build the <em>Stockfish of Pokémon TCG</em>, a bot that just plays the best move given its deck. I wanted a human-level bot. I researched the best machine learning techniques, adapted to the actual mechanics of the game.</p>
+<p>What came out of that:</p>
+<ul>
+<li>A small transformer (about 253k parameters) that sees every Pokémon in play as a token, along with hand, discard piles, and the full decklist.</li>
+<li>A <strong>belief model</strong> for hidden information, which weights real decklists consistent with what the opponent has shown and samples their hand and prizes from them. (My first search version quietly cheated by peeking at the opponent&#39;s real deck. I caught it and replaced it with sampling. Strength dropped from 76.5% to 74.4% against the old bot, which is what honesty costs.)</li>
+<li>Self-play training on about 1.08 million positions from ~13,000 games.</li>
+</ul>
+<p>The result: on held-out games the network agrees with its teacher search about 65% of the time, and the early version beat the rule-based bot 65% (±10, with only 80 games). That&#39;s <em>promising</em>, but agreement with a teacher measures copying, so if the teacher is stupid then so is the student. I never played the final network head-to-head.</p>
+<p>It also used about 7.5 GB of disk, almost all training data, and made my laptop fan sound like a jet engine.</p>
+<h2>So What Did I Actually Learn?</h2>
+<p><strong>1. Real data beats clever analysis.</strong> The one deck with real evidence behind it wasn&#39;t any of my ideas. It was Rocket&#39;s Honchkrow: 52.9% win rate across 534 matches while only 1.8% of the field plays it. Better, lists with 7 or more games win 56.1% of the time. Okidogi Barbaracle (54.7%) and Crustle (53.2%) also look decent. That&#39;s a thing a spreadsheet told me for free in the first hour of this maddening spiral, and I walked straight past it to go do whatever it is I did.</p>
+<p><strong>2. &quot;Niche&quot; is a state of the market, not a property of a deck.</strong> If something&#39;s genuinely good and underplayed, it&#39;s usually underplayed because it&#39;s hard to pilot, has a catastrophic matchup against something common, or both. Honchkrow&#39;s matchup table is a perfect example: 80% into Excadrill and Crustle, 71% into Zoroark, but 33% into Talonflame Dusknoir, and its pilot has to hold Supporters for Rocket Feathers, which is exactly what my simulator&#39;s AI couldn&#39;t do.</p>
+<p><strong>3. Be suspicious of your own tools.</strong> The simulator said Honchkrow was bad (32%). The real data said 53%. If I&#39;d trusted the simulator, I&#39;d have thrown away the one good lead. The hardest part of the whole project was admitting, several times, that the thing I&#39;d just spent hours on wasn&#39;t good enough to decide anything and was, in fact, rather useless.</p>
+<p><strong>4. You can have fun and still be doing the wrong thing.</strong> I don&#39;t regret it. Reading every card taught me the format far better than watching streams did, and I now know exactly <em>why</em> Latias is in everything. But if the goal was &quot;pick a deck&quot;, I could have done it in an evening.</p>
+<h2>Where It Ended Up</h2>
+<p>I did, however, end up with something of an idea for a good second deck I could try: <strong>Mega Darkrai ex</strong>. It&#39;s a status deck, similar to Mega Dragalge ex, but a lot more stable and reliable, and it&#39;s not straight up useless! Well, at least I think so. I&#39;m using a weird mashup of decks from this one Japanese website and just playing it against other decks by myself to see how well it plays. And to be honest, it&#39;s still kinda doodoo.</p>
+<p>The simulator is still there. The network is still half-trained. And Zoroark is still my main. And I lost years off my life, but at least I now know why no one plays Cofagrigus.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Starving the Player, Hostile Design and Great Games</title>
+      <link>https://greeny127.github.io/blog/posts/starving-the-player.html</link>
+      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/starving-the-player.html</guid>
+      <pubDate>Sat, 12 Sep 2026 12:00:00 GMT</pubDate>
+      <category>thinking</category>
+      <category>gaming</category>
+      <category>game-design</category>
+      <description>Have you played Yume Nikki, Fear &amp; Hunger, or Void Stranger? Maybe you saw a 10-hour video about Fear &amp; Hunger, or your favourite let's-play YouTuber do a playthrough of Void Stranger. Or, you haven't heard of any of these games. They're cult classics as one would say. These…</description>
+      <content:encoded><![CDATA[<p>Have you played Yume Nikki, Fear &amp; Hunger, or Void Stranger? Maybe you saw a 10-hour video about Fear &amp; Hunger, or your favourite let&#39;s-play YouTuber do a playthrough of Void Stranger. Or, you haven&#39;t heard of any of these games.</p>
+<p>They&#39;re <em>cult classics</em> as one would say.</p>
+<p>These games are difficult. Unforgiving. Unintuitive. Random at times too. And they tell you nothing. In fact, outlining the basic design aspects of these three games would lead you to think that they are horrible to play, and that anyone in their right mind wouldn&#39;t even watch a video of someone playing one.</p>
+<p>Yet, these games <em>work</em>. They tell a story and they do it effectively. But why? Any semblance of common sense would tell you otherwise.</p>
+<p>Here&#39;s my attempt at making sense of this.</p>
+<h2>The Common Design Philosophy</h2>
+<p>The core philosophy of these games is somewhat the same.</p>
+<ol>
+<li>Difficult mechanics</li>
+<li>Unfair mechanics</li>
+<li>Unforgiving mechanics</li>
+<li>Zero information</li>
+<li>&quot;Moon logic&quot; puzzles</li>
+<li>Long, obtuse gameplay</li>
+<li>Complex, branching storylines</li>
+</ol>
+<p>This goes against traditional game design. You know how it is these days with the 10-hour tutorials and the yellow paint. Developers and designers have this inherent <em>need</em> to tell the player that &quot;Hey, this is an IMPORTANT game mechanic.&quot; This poses another problem: designing an effective tutorial without losing the player in the first ten seconds.</p>
+<h2>Difficult Mechanics, Unfair Mechanics and Unforgiving Mechanics</h2>
+<p>Fear &amp; Hunger is known to be difficult and viscerally unforgiving. Basic stats and mechanics are hidden from the player; literal coin flips determine if your character keeps a limb or not. In fact, almost every decision in this game is determined by a 50/50 coin flip — your fate lies in the hands of a pseudo-random number generator. Even saving your game involves a coin flip: fail it, and the result is almost always immediate death. Progression is tied to knowledge, so you can&#39;t out-grind your enemies.</p>
+<p>But this hostile, unfair game design is perfect. Save points, which are the universal relief point for any game, are <strong>weaponized against</strong> the player. It becomes a gamble that forces the player to reconsider, making every save point an excruciating risk-reward calculation: push forward with low health for a much safer region but risk losing progress and dying, or risk an ambush during the save for a guaranteed heal and progress save.</p>
+<p>This coin flip mechanic is what ties the game&#39;s themes together, simulating the absolute helplessness of being trapped in a dungeon with beings superior to you. The player is never in control and the game lets you know that with every interaction. This very mechanic is what drives players to actively explore and exhaust every option in the game-world to avoid triggering said coin flips.</p>
+<p>Another example, Void Stranger. It&#39;s a different yet similar story. The core gameplay loop is essentially solving increasingly demanding Sokoban puzzles, which, even without the hidden meta-narrative features, is difficult to accomplish over 200+ floors with a small, limited number of &quot;lives&quot;. It trains you to solve rooms &quot;properly&quot;, completely hiding the fact that you can intentionally fall down pits to skip levels at the cost of your health, or that you can manipulate the boundaries of the screen itself. The unfairness stems from the fact that the tools you need to break the game are in your hands from minute one, but the game deliberately obfuscates them behind layers of misdirection.</p>
+<p>When you run out of lives is when the hostile design really shows itself — you don&#39;t get the usual &quot;game over&quot; screen. Instead, it alters the save state, strips away any UI, and thrusts you back into the game as &quot;Voided&quot;. This changes the storyline in and of itself, locking you out of the true narrative, and to reclaim the run, you have to replay hours of puzzles from scratch. It challenges the player by offering an easier playthrough at the cost of true, ultimate progress.</p>
+<p>It&#39;s a red herring. The difficult, repetitive and frustrating nature of the puzzles, along with unyielding failure states, is what eventually forces the player to experiment — to try to find a shortcut, which inevitably leads the player to the realization that the game isn&#39;t all that it seems. It is the realization that you can break the game&#39;s assumed rules that feels like executing an exploit to escape a sandbox.</p>
+<p>The extreme friction acts as a perfect smokescreen. It trains your brain to accept rigid state-machine logic, making the eventual boundary breaks feel incredibly subversive and immersive.</p>
+<h2>The Cryptic Nature and the Lack of Information</h2>
+<p>Yume Nikki is the oldest of the three, dating all the way back to 2004. This game is different to the other two in that it has no <em>apparent</em> difficult or frustrating mechanics. No mechanical puzzles or combat encounters. In Yume Nikki, the environment itself becomes the enemy, usually to the player&#39;s detriment. The whole game lies in the core loop of traversing through a <em>dream world</em> to collect 24 &quot;effects&quot; to unlock the ending — there&#39;s no dialogue, no combat and no real &quot;plot&quot;. The environment is weird, uncanny, and, most of all, random and cryptic. It would change, add to, or subtract from itself without any apparent cause. A player travelling through the doors may find that no map is ever the same, and they could easily lock themselves out of new maps by just walking. Blind environmental probability.</p>
+<p>Coupling this with the fact that there is no dialogue makes it a very isolating experience. There&#39;s no text exposition or a clear objective to achieve. The NPCs in the game are often non-verbal, emitting only sounds or just existing in the numerous surreal spaces.</p>
+<p>The game does offer the ability to &quot;pinch&quot; yourself awake to escape a dead end you may have wandered into. But waking up erases any navigational progress you might have made, posing yet another brutal choice similar to both Fear &amp; Hunger and Void Stranger. Using the numbered points from earlier, you can clearly see a pattern forming between the three games.</p>
+<p>While we&#39;re at it, Fear &amp; Hunger, too, is extreme in its crypticness. While it offers brief narrative exposition during character creation, the guidance immediately ends there. Everything else — progression mechanics, enemy behaviors, and item utility — is completely hidden. The player is forced to decipher the game&#39;s brutal logic entirely on their own, paying for every lesson with numerous deaths and grueling replays. Nothing, and I mean NOTHING, is ever explained to the player.</p>
+<p>The lack of information is a defining feature that creates the most impact. When there&#39;s no information for the player to grasp — nothing solid to build understanding on — that&#39;s when two things develop: curiosity, and paranoia. Your greatest enemy is always your own head. And the less information is given, the more you fill in the blanks. You can&#39;t build a horror game if the player knows everything and is all-powerful; tension is built slowly and effectively, through friction, the unknown, and helplessness.</p>
+<h2>&quot;Moon Logic&quot; as a Language</h2>
+<p>When a game strips away your traditional gamer intuition — the ingrained habits that tell you red barrels explode, glowing weak spots take double damage, and walls with cracks can be bombed — what are you left with? You are left with the game&#39;s own internal, alien logic. The infamous &quot;moon logic.&quot;</p>
+<p>In traditional point-and-click adventure games of the 90s, moon logic was often a byproduct of bad design. But in these cult classics, it is a deliberate, meticulously crafted language. Void Stranger, for instance, takes the standard language of block-pushing and entirely rewrites the dictionary. The game wants you to feel stupid. It wants you to hit a wall so impenetrable that you are forced to stop playing it like a video game and start treating it like a puzzle box sitting in your actual living room. You start questioning the UI. You start questioning the borders of your screen.</p>
+<p>Fear &amp; Hunger does this with its combat and exploration. A normal RPG teaches you to attack the center mass until the health bar depletes. Fear &amp; Hunger teaches you that health bars don&#39;t exist, and swinging blindly will get your arms chopped off. Instead, you learn the gruesome moon logic of the dungeon: cut off the guard&#39;s weapon arm first, throw glass in the monster&#39;s eyes, or perhaps realize that fighting is entirely the wrong choice and you should just talk to the eldritch abomination to distract it.</p>
+<p>This obtuse, winding gameplay is the ultimate filter. It filters out the tourists, leaving only the players willing to learn the language. And when you finally understand that language — when you learn to navigate Yume Nikki&#39;s looping, senseless dreamscapes without getting lost, or work out how to actively break Void Stranger over your knee — that&#39;s when the rush of dopamine is unparalleled.</p>
+<p>All of this hostility — the coin flips, the lost progress, the cryptic worlds — serves a singular purpose: it elevates the narrative in a way no cinematic cutscene ever could.</p>
+<p>We often equate good design with removing frustration. And yes, sometimes that is exactly what good design means. Bad controls are frustrating. Unresponsive interfaces are frustrating. But we tend to forget that game design isn&#39;t the same as UI design. Artificial difficulty can be frustrating, but frustration itself isn&#39;t inherently bad.</p>
+<p>Of course, meaningless frustration is bad. There&#39;s a difference.</p>
+<p>If a game makes you walk slowly through a corridor for ten minutes because the developer wants to pad the runtime, that&#39;s frustrating. Instead, if a game makes you walk slowly through a corridor because you&#39;re injured, terrified, and desperately trying to avoid making noise, that same friction can create tension.</p>
+<p>This brings us to the complex, branching storylines. In a standard AAA game, seeing a different ending usually involves picking a different dialogue option right before the final boss. In these games, a different ending requires an entirely different understanding of the world.</p>
+<p>Getting a &quot;good&quot; ending (if you can even call it that) in Fear &amp; Hunger requires such a deep, exhaustive knowledge of the dungeon&#39;s horrors that you, the player, have functionally become a seasoned survivor. The friction ensures that the story isn&#39;t something you passively consume. When you finally uncover a piece of deep lore, or reach an ending that sheds light on the overarching tragedy of the setting, it feels profoundly <em>earned</em>.</p>
+<p>The same applies to Yume Nikki. The ending of that game is infamous, abrupt, and deeply unsettling. But it only lands with the emotional weight that it does because you spent hours wandering aimlessly through the lonely, isolating mind of Madotsuki, the character you play. The long, obtuse gameplay loop is the narrative. The mechanics <strong>are the metaphor</strong>. You have to earn it.</p>
+<p>Hostile design is ultimately an act of deep respect for the player.</p>
+<p>We are so used to games desperate to be liked, games terrified that if we get stuck for more than two minutes, we&#39;ll turn them off and leave a bad review. Fear &amp; Hunger, Void Stranger, and Yume Nikki do not care if you like them. They are perfectly content to let you suffer, to starve you of information, and to watch you fail. And ironically, it is exactly that refusal to compromise that makes us love them so fiercely.</p>
+<h2>How the Internet Elevates the Experience</h2>
+<p>I think the internet helps shape the experience of these types of games. Due to the cryptic nature of the games, the lack of hand-holding and weird logic, communities form to decrypt the game and &quot;overcome&quot; it. Wikis spawn, slowly documenting the ins and outs of the world, weird quirks and fleeting occurrences. It becomes a collective effort. The extreme hostility of the design forces players out of their isolated single-player experiences and into a shared digital experience. When a game refuses to tell you anything, the only way to survive is to ask someone else who has already suffered through it.</p>
+<p>We saw this in the early days of gaming with playground rumors — the whispers of hidden levels and secret characters that you couldn&#39;t verify without trying them yourself. The internet takes that phenomenon and amplifies it on a global scale. Yume Nikki achieved its legendary status precisely because of early internet forums and imageboards. Players would stumble upon a horrifying, fleeting event like <em>Uboa</em>, fail to replicate it, and immediately rush to a message board to ask, &quot;Did anyone else just see that?&quot;</p>
+<p>With Fear &amp; Hunger, the community acts as a survival network. The game&#39;s mechanics are so brutal and its secrets so deeply buried that the wiki reads less like a traditional game guide and more like a grim survival manual passed between weary travelers: documenting the exact percentage chance of events, cataloging which limbs to sever on which specific enemies, and mapping out the safest routes through the dungeon, along with cheese strategies and exploits. All of this becomes a massive, crowdsourced puzzle.</p>
+<p>Similarly, Void Stranger practically demands a collective consciousness to fully unravel. The meta-narrative and the deeply hidden mechanics meant to break the game are so esoteric that players naturally band together, sharing screenshots of strange glyphs and comparing notes on obscure puzzle mechanics. It transforms the solitary act of playing a puzzle game into a massive, collaborative ARG.</p>
+<p>This is the hidden genius of information withdrawal. If a game gives you a map, a quest marker, and a detailed tutorial, you have no reason to look away from the screen. You consume the content and move on. But when a game gives you nothing but friction and dead ends, it forces you to seek out answers.</p>
+<h2>A Conversation</h2>
+<p>Games are fundamentally a conversation between the developers and the players — a story, a message, or a theme, something the developer wanted to convey. Games like these ensure that the player has a voice in the conversation. They demand <em>you</em> do the talking, forcing you to fill the silence and understand what the intention was. And because of that, it becomes deeply personal to the player. I think that is extremely difficult to do. Balancing this fine line between inconvenience and meaning is hard.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Resurrecting a Childhood PS2 Slim</title>
+      <link>https://greeny127.github.io/blog/posts/ps2-repair.html</link>
+      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/ps2-repair.html</guid>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
+      <category>repair</category>
+      <category>ps2</category>
+      <category>hardware</category>
+      <description>Rust on the chassis, a dead AV cable, and a disc drive that just won't spin. This is a PS2 Slim, model SCPH-75004, PAL region. The exact unit I had growing up, which never actually worked. The disc drive would spin up, seek, and just fail, over and over, in a grinding buzz that…</description>
+      <content:encoded><![CDATA[<p>Rust on the chassis, a dead AV cable, and a disc drive that just won&#39;t spin.  </p>
+<p>This is a PS2 Slim, model SCPH-75004, PAL region. The exact unit I had growing up, which never actually worked. The disc drive would spin up, seek, and just fail, over and over, in a grinding buzz that I now recognize as a spindle motor giving up. Opening the case turned up two separate problems instead of one:</p>
+<ul>
+<li>Visible rust and corrosion on the internal metal chassis parts, which points to moisture exposure at some point in this thing&#39;s life</li>
+<li>The disc lid button feels soft and doesn&#39;t rebound properly, which likely means the lid-detection switches aren&#39;t triggering fully — the console may think the lid is still open</li>
+</ul>
+<p>On top of that, the console lost video output intermittently once I had the shell off, despite booting fine on the TV the night before. Tracing that back led to the AV Multi Out cable itself; it&#39;s missing several pins on the connector. The console&#39;s own port looked intact by comparison. It genuinely looked like the FNAF title screen glitches.  </p>
+<p>A replacement composite AV cable is on the way. Once that&#39;s in, I can rule the cable out properly and focus on the drive and the corrosion, which is really two repairs pretending to be one.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>The Two-Year Kanji Loop</title>
+      <link>https://greeny127.github.io/blog/posts/kanji-loop.html</link>
+      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/kanji-loop.html</guid>
+      <pubDate>Sun, 02 Aug 2026 12:00:00 GMT</pubDate>
+      <category>language</category>
+      <category>Japanese</category>
+      <category>learning</category>
+      <description>How do I stick to my learning? Why is it so difficult to just spend half an hour a day, every day on learning kanji . My first foray into learning kanji was through Anki . I thought it was the coolest thing in the world, the Spaced Repetition System - You're telling me this…</description>
+      <content:encoded><![CDATA[<p>How do I stick to my learning? Why is it so difficult to just spend half an hour a day, every day on learning <em>kanji</em>.  </p>
+<p>My first foray into learning kanji was through <strong>Anki</strong>. I thought it was the coolest thing in the world, the Spaced Repetition System - You&#39;re telling me this piece of software knows exactly when I&#39;m just about to forget a particular set of information? Wow. Unfortunately, no matter how good your computer is, nothing can beat a lazy human. That human being me, of course. It always goes the same way: I get motivated → I do my reviews DAILY, without fail, and my lessons → I start losing steam, and &quot;forget&quot; to do it on some days → reviews start piling up so I stop doing lessons → loss of motivation, and I conveniently forget about the app altogether for 6 months → rinse and repeat. This has been me for the past 2 years. And because of my sheer stubbornness to restart every single time for continuity, I now know the first 20 beginner kanji like the back of my hand. Nothing more and nothing less. 2 years by the way.  </p>
+<p>So now, I&#39;m trying WaniKani. Maybe the strictness and less-freedom plus a more polished experience will bring me to stick with it more. Well, at least for the levels past 2, because I&#39;m sure I already know levels 1 and 2 by heart thanks to my shenanigans over the past two years.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>Getting My Wii Running Again</title>
+      <link>https://greeny127.github.io/blog/posts/wiilink.html</link>
+      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/wiilink.html</guid>
+      <pubDate>Fri, 24 Jul 2026 12:00:00 GMT</pubDate>
+      <category>retro</category>
+      <category>wii</category>
+      <category>wiilink</category>
+      <description>I recently unearthed my old Wii from the depths of a storage closet. Shockingly, it still works flawlessly. I booted it up, played around with the menus, and listened to that ambient background hum before a specific, slightly painful childhood memory came rushing back. See back…</description>
+      <content:encoded><![CDATA[<p>I recently unearthed my old Wii from the depths of a storage closet. Shockingly, it still works flawlessly. I booted it up, played around with the menus, and listened to that ambient background hum before a specific, slightly painful childhood memory came rushing back. See back in the day, when I was in grade school, I was gifted this Wii from... I can&#39;t really remember. But, this Wii was EVERYTHING to me and my brother.    </p>
+<p>However, buying games was somewhat pricey, and it could quickly compound - and my dad realised that pretty quickly. So he went and jailbroke it. Well, he didn&#39;t, he sent it off to a nearby shop and the guy there jailbroke it and sold games to my dad for fractions of the price. I didn&#39;t know any of that, I was a kid, nor did I care - I was able to play any game I wanted. Anyway, I say this because I distinctly remember updating the Wii, breaking the jailbroken firmware, and my brother getting really mad at me. We couldn&#39;t play the cracked games anymore. There ends the flashback.  </p>
+<p>Cut to today. I&#39;m nineteen, freshly finished with my first year of uni, armed with years of programming knowledge, and staring down a wide-open summer. I realized it was finally time to fix up this old console and atone for my grave childhood mistake.</p>
+<p>The actual revival process was surprisingly straightforward. What seemed like dark magic performed by a sketchy shop owner a decade ago now just took an SD card, a laptop, and a few minutes of reading documentation. The homebrew setup was seamless, but while poking around the modding scene, I stumbled across a project that completely derailed my afternoon: WiiLink.</p>
+<p>For the uninitiated, WiiLink is a fan-made open-source project dedicated to resurrecting the Wii&#39;s original online services long after Nintendo officially pulled the plug on WiiConnect24. The results are nothing short of incredible. Suddenly, the disc drive slot was pulsing with that iconic neon blue light again, signaling incoming mail. Channels I never even knew existed, largely because they were previously locked to Japan or Europe, were suddenly sitting right there on my menu, fully translated and functional.</p>
+<p>Did you know there was a Demae Channel that let you order actual, real-world food delivery through your console? Back in the late 2000s, families in Japan were ordering pizza and sushi using their Wiimotes, complete with a little delivery driver Mii rolling across the screen. WiiLink brought the interface back to life just so users today can experience how wildly ahead of its time it was. Then there was the Wii Room, a bizarre but charming social app where you could watch TV and video content in a virtual living room alongside your friends&#39; Miis. And it works in the UK, like actually works — through JustEat.</p>
+<p>Even the staple channels feel magical to use again. Seeing the Forecast Channel&#39;s 3D globe populate with real-time, accurate weather data today, accompanied by that incredibly relaxing ambient soundtrack, is a surreal experience. It transforms the console from an isolated retro gaming box back into the living, breathing multimedia hub it was always designed to be.  </p>
+<p>It was weirdly jarring seeing the news about Iran on my Wii though.  </p>
+<p>It&#39;s frankly an amazing piece of software, and I&#39;m genuinely in awe of the reverse-engineering community. They didn&#39;t just preserve the games; they preserved the atmosphere, the quirks, and the culture of the Wii era. It&#39;s one thing to emulate Mario Kart on a PC, but it&#39;s an entirely different feeling to sit on your living room floor, point a remote at the sensor bar, and watch a long-dead digital world come back to life. My childhood mistake might have cost my brother and me our game library back then, but fixing it today gave me a whole new appreciation for this little black box.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>
