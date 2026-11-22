@@ -16,8 +16,13 @@
       <category>pokemon</category>
       <category>tcg</category>
       <category>data</category>
-      <description>I main N's Zoroark in Pokémon TCG. It's a fine deck. It's also a deck that half the room is playing (well like 9%?), and I wanted a second one that wasn't. Something I could pull out that nobody had a plan for, and that wasn't just whatever was on Limitless's homepage. So I did…</description>
+      <description>I main N's Zoroark in Pokémon TCG. It's a fine deck. It's also a deck that half the room is playing (well like 9%?), and I wanted a second one that wasn't. Something I could pull out that nobody had a plan for, and that wasn't just whatever was on Limitless's homepage. The usual…</description>
       <content:encoded><![CDATA[<p>I main N&#39;s Zoroark in Pokémon TCG. It&#39;s a fine deck. It&#39;s also a deck that half the room is playing (well like 9%?), and I wanted a second one that wasn&#39;t. Something I could pull out that nobody had a plan for, and that wasn&#39;t just whatever was on Limitless&#39;s homepage.</p>
+<figure>
+  <img src="https://blog.soan.fyi/images/pokemon-tcg-table.jpg" alt="Two Pokémon TCG playmats on a marble table, mid-game. Cards in play include N's Zorua, N's Reshiram and Darmanitan, with a Boss's Orders and deck boxes beside them." loading="lazy" width="1600" height="1200">
+  <figcaption>The usual setup: N's Zoroark on the table.</figcaption>
+</figure>
+
 <p>So I did what any reasonable person would do. I went on Limitless and Reddit, found nothing that excited me, and then over one very long night and the following afternoon spiralled into reading every card in the format, building a game simulator, and attempting to train a neural network to play Pokémon.</p>
 <p>This is how that went. Spoiler: I did not find it. But Mega Darkrai might just be my participation prize.</p>
 <h2>Step One: Read Every Card</h2>

@@ -150,6 +150,9 @@ article a{color:var(--lime)}
 article ul, article ol{padding-left:1.4rem; margin:0 0 1.2rem; color:var(--body-txt)}
 article li{margin-bottom:.4rem; line-height:1.6}
 article strong{color:var(--emphasis)}
+article figure{margin:1.8rem 0}
+article img{display:block; max-width:100%; height:auto; border-radius:12px; border:1px solid var(--border)}
+article figcaption{color:var(--dim); font-size:.85rem; margin-top:.6rem}
 article blockquote{
   border-left:3px solid var(--lime); margin:2rem 0; padding:.3rem 0 .3rem 1.3rem; font-style:italic;
   font-size:1.1rem; color:var(--txt);
