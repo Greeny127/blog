@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Sohan's Blog</title>
-    <link>https://greeny127.github.io/blog/</link>
+    <link>https://blog.soan.fyi/</link>
     <description>Hardware, repair, languages, retro games and thinking out loud.</description>
     <language>en</language>
     <lastBuildDate>Sun, 22 Nov 2026 12:00:00 GMT</lastBuildDate>
-    <atom:link href="https://greeny127.github.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://blog.soan.fyi/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>I Tried to Science a Second Pokémon Deck and Learned the Meta Is the Meta for a Reason</title>
-      <link>https://greeny127.github.io/blog/posts/pokemon-tcg-second-deck.html</link>
-      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/pokemon-tcg-second-deck.html</guid>
+      <link>https://blog.soan.fyi/posts/pokemon-tcg-second-deck.html</link>
+      <guid isPermaLink="true">https://blog.soan.fyi/posts/pokemon-tcg-second-deck.html</guid>
       <pubDate>Sun, 22 Nov 2026 12:00:00 GMT</pubDate>
       <category>thinking</category>
       <category>pokemon</category>
@@ -73,8 +73,8 @@
     </item>
     <item>
       <title>Starving the Player, Hostile Design and Great Games</title>
-      <link>https://greeny127.github.io/blog/posts/starving-the-player.html</link>
-      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/starving-the-player.html</guid>
+      <link>https://blog.soan.fyi/posts/starving-the-player.html</link>
+      <guid isPermaLink="true">https://blog.soan.fyi/posts/starving-the-player.html</guid>
       <pubDate>Sat, 12 Sep 2026 12:00:00 GMT</pubDate>
       <category>thinking</category>
       <category>gaming</category>
@@ -137,8 +137,8 @@
     </item>
     <item>
       <title>Resurrecting a Childhood PS2 Slim</title>
-      <link>https://greeny127.github.io/blog/posts/ps2-repair.html</link>
-      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/ps2-repair.html</guid>
+      <link>https://blog.soan.fyi/posts/ps2-repair.html</link>
+      <guid isPermaLink="true">https://blog.soan.fyi/posts/ps2-repair.html</guid>
       <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
       <category>repair</category>
       <category>ps2</category>
@@ -156,8 +156,8 @@
     </item>
     <item>
       <title>The Two-Year Kanji Loop</title>
-      <link>https://greeny127.github.io/blog/posts/kanji-loop.html</link>
-      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/kanji-loop.html</guid>
+      <link>https://blog.soan.fyi/posts/kanji-loop.html</link>
+      <guid isPermaLink="true">https://blog.soan.fyi/posts/kanji-loop.html</guid>
       <pubDate>Sun, 02 Aug 2026 12:00:00 GMT</pubDate>
       <category>language</category>
       <category>Japanese</category>
@@ -170,8 +170,8 @@
     </item>
     <item>
       <title>Getting My Wii Running Again</title>
-      <link>https://greeny127.github.io/blog/posts/wiilink.html</link>
-      <guid isPermaLink="true">https://greeny127.github.io/blog/posts/wiilink.html</guid>
+      <link>https://blog.soan.fyi/posts/wiilink.html</link>
+      <guid isPermaLink="true">https://blog.soan.fyi/posts/wiilink.html</guid>
       <pubDate>Fri, 24 Jul 2026 12:00:00 GMT</pubDate>
       <category>retro</category>
       <category>wii</category>
